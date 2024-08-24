@@ -1,9 +1,16 @@
 [
   {
-    "id": "f1bc2b90-040a-4eeb-9c11-e7bdb59ebbc4",
-    "title": "спайдер мен",
-    "text": "новывй фильм",
-    "image": "images/3ad5173b-6d6d-46be-a9b6-ac16d2f5254d.jpg",
-    "date": "2024-08-24T09:01:06.245Z"
+    "id": "1892822d-0482-4041-9b67-edc61988f200",
+    "title": "спайдермен",
+    "text": "новый фильм",
+    "image": "images/50d0810f-7737-424f-a984-80c0ce62b32a.jpg",
+    "date": "2024-08-24T09:27:50.749Z"
+  },
+  {
+    "id": "d982b056-e0de-45bd-9335-8f13a30f420c",
+    "title": "lalal",
+    "text": "lalala",
+    "image": null,
+    "date": "2024-08-24T10:25:44.053Z"
   }
 ]

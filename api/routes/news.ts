@@ -42,4 +42,20 @@ newsRouter.delete('/:id', async (req, res) => {
 
 });
 
+newsRouter.get('/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send({"error": "Id params must be in url"});
+    }
+
+    let news = await newDb.findNewsById(req.params.id);
+
+    if (news === undefined || news === null) {
+        res.status(404).send({error: "news not found"});
+    }
+
+    if (news !== null) {
+        res.send(news);
+    }
+});
+
 export default newsRouter;

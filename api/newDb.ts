@@ -44,7 +44,6 @@ const newDb = {
             if (news) {
                 data = data.filter(news => news.id !== id);
                 await this.save();
-                return 'Удалено'
             }
         }
     },
