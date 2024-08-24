@@ -1,40 +1,33 @@
 import React, { useState } from 'react';
 import { Grid, TextField } from '@mui/material';
-import { NewsForm } from '../../../types.ts';
+import { CommentForm } from '../../../types.ts';
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
-import FileInput from '../../../UI/FileInput/FileInput.tsx';
+import { useAppDispatch } from '../../../app/hooks.ts';
+import { addComment, getCommentByNewsId } from '../commentsThunk.ts';
 
 interface Props {
-  onSubmit: (post: NewsForm) => void;
+  newsId: string;
   isLoading: boolean;
 }
 
-const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
-  const [state, setState] = useState<NewsForm>({
-    title: '',
-    text: '',
-    image: null,
+const PostForm: React.FC<Props> = ({ newsId, isLoading }) => {
+  const dispatch = useAppDispatch();
+
+  const [state, setState] = useState<CommentForm>({
+    news_id: newsId,
+    author: '',
+    comment: '',
   });
 
-  const submitFormHandler = (event: React.FormEvent) => {
+  const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit({ ...state });
+    await dispatch(addComment(state));
+    await dispatch(getCommentByNewsId(newsId));
   };
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const fileInputChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const { name, files } = event.target;
-    const value = files && files[0] ? files[0] : null;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -49,14 +42,14 @@ const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       component="form"
       onSubmit={submitFormHandler}
     >
-      <h1>Add new post</h1>
+      <h1>Add new comment</h1>
       <Grid item>
         <TextField
           required
-          label="Title"
-          id="title"
-          name="title"
-          value={state.title}
+          label="Author"
+          id="author"
+          name="author"
+          value={state.author}
           onChange={inputChangeHandler}
         />
       </Grid>
@@ -65,18 +58,11 @@ const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           required
           multiline
           minRows={3}
-          label="Text"
-          id="text"
-          name="text"
-          value={state.text}
+          label="Comment"
+          id="comment"
+          name="comment"
+          value={state.comment}
           onChange={inputChangeHandler}
-        />
-      </Grid>
-      <Grid item>
-        <FileInput
-          label="Image"
-          name="image"
-          onChange={fileInputChangeHandler}
         />
       </Grid>
       <Grid item>
@@ -86,7 +72,7 @@ const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           loadingPosition="start"
           startIcon={<SaveIcon />}
           variant="contained"
-          disabled={state.text === '' || state.title === ''}
+          disabled={state.author === '' || state.comment === ''}
         >
           <span>Save</span>
         </LoadingButton>

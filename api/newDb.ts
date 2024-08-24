@@ -1,6 +1,7 @@
 import {promises as fs} from 'fs';
 import crypto from 'crypto';
-import {New, NewMutation} from './types';
+import {Comment, New, NewMutation} from './types';
+import commentDb from "./commentDb";
 
 const filename = './news.json';
 let data: New[] = [];
@@ -42,8 +43,13 @@ const newDb = {
             let news = await this.findNewsById(id);
 
             if (news) {
+                let dataComments: Comment[] = await commentDb.getItems();
+                dataComments = dataComments.filter(comment => comment.news_id !== id);
+                await commentDb.save(dataComments);
+
                 data = data.filter(news => news.id !== id);
                 await this.save();
+                return 'News was deleted';
             }
         }
     },

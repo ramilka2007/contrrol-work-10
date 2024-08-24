@@ -2,18 +2,23 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { NavLink } from 'react-router-dom';
 import { deleteNews, fetchNews } from '../postsThunk.ts';
-import { useAppDispatch } from '../../../app/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
 import { NewsWithoutText } from '../../../types.ts';
 import imageNotFound from '../../../assets/image-not-found.jpg';
+import { selectPostDeleting } from '../postsSlice.ts';
+import { LoadingButton } from '@mui/lab';
+import { deleteAllComments } from '../../comments/commentsThunk.ts';
 
 interface Props {
   news: NewsWithoutText;
 }
 const PostItem: React.FC<Props> = ({ news }) => {
   const dispatch = useAppDispatch();
+  const isDeleting = useAppSelector(selectPostDeleting);
 
   const deleteNewsById = async (id: string) => {
     await dispatch(deleteNews(id));
+    await dispatch(deleteAllComments(id));
     await dispatch(fetchNews());
   };
 
@@ -48,13 +53,14 @@ const PostItem: React.FC<Props> = ({ news }) => {
             Read more &gt;
           </NavLink>
 
-          <button
+          <LoadingButton
             onClick={() => deleteNewsById(news.id)}
+            loading={isDeleting}
             type="button"
-            className="ms-3 me-1 btn btn-danger"
+            className="ms-3 me-1 btn btn-danger bg-danger text-white"
           >
             Delete
-          </button>
+          </LoadingButton>
         </div>
       </div>
     </>

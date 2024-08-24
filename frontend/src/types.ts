@@ -18,3 +18,16 @@ export interface NewsWithoutText {
   image: string | null;
   date: string;
 }
+
+export interface CommentForm {
+  news_id: string;
+  author: string;
+  comment: string;
+}
+
+export interface Comment {
+  id: string;
+  news_id: string;
+  author: string;
+  text: string;
+}
