@@ -7,15 +7,19 @@ import { ToastContainer } from 'react-toastify';
 import {StrictMode} from "react";
 import theme from "./theme.ts";
 import {CssBaseline, ThemeProvider} from "@mui/material";
+import {store} from "./app/store.ts";
+import {Provider} from "react-redux";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <ToastContainer position="bottom-right" />
-                <App />
-            </ThemeProvider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <ToastContainer position="bottom-right" />
+                    <App />
+                </ThemeProvider>
+            </BrowserRouter>
+        </Provider>
     </StrictMode>,
 );

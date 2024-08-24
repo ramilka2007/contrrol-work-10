@@ -1,5 +1,7 @@
 import express from 'express';
 import cors, {CorsOptions} from 'cors';
+import newsRouter from "./routes/news";
+import newDb from "./newDb";
 
 const app = express();
 const port = 8000;
@@ -17,9 +19,12 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use('/news', newsRouter);
 
 const run = async () => {
+    await newDb.init();
+
     app.listen(port, () => {
         console.log(`Server started on ${port} port!`);
     });

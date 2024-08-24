@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-const Home = () => {
+const Posts = () => {
     return (
         <div className="d-flex justify-content-between align-items-center">
             <h1>Posts</h1>
@@ -10,4 +10,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Posts;

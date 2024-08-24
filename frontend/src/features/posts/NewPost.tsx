@@ -1,10 +1,24 @@
 import React from 'react';
 import PostForm from "./components/PostForm.tsx";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {useNavigate} from "react-router-dom";
+import {selectPostCreating} from "./postsSlice.ts";
+import {NewsForm} from "../../types.ts";
+import {createPost} from "./postsThunk.ts";
 
 const NewPost = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const isCreating = useAppSelector(selectPostCreating);
+
+    const onFormSubmit = async (newMutation: NewsForm) => {
+        await dispatch(createPost(newMutation));
+        navigate('/');
+    };
+
     return (
         <div>
-            <PostForm/>
+            <PostForm onSubmit={onFormSubmit} isLoading={isCreating}/>
         </div>
     );
 };
