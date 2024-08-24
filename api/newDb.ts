@@ -25,6 +25,29 @@ const newDb = {
         await this.save();
         return newNew;
     },
+    async findNewsById(id: string) {
+
+        if (data.length > 0 && id) {
+            let news: New | undefined = data.find(news => news.id === id);
+
+            if (news !== undefined) {
+                return news;
+            } else  {
+                return null;
+            }
+        }
+    },
+    async deleteNewsById(id: string) {
+        if (data.length > 0 && id) {
+            let news = await this.findNewsById(id);
+
+            if (news) {
+                data = data.filter(news => news.id !== id);
+                await this.save();
+                return 'Удалено'
+            }
+        }
+    },
     async save() {
         return fs.writeFile(filename, JSON.stringify(data, null, 2));
     }

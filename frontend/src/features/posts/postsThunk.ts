@@ -13,20 +13,20 @@ export const createPost = createAsyncThunk<void, NewsForm>(
             formData.append('image', productMutation.image);
         }
 
-        await axiosApi.post('news', formData);
+        await axiosApi.post('/news', formData);
     }
 );
 
 export const fetchNews = createAsyncThunk<News[]>(
     'posts/fetchAll',
     async () => {
-        const {data: news} = await axiosApi.get<News[]>('news');
+        const {data: news} = await axiosApi.get<News[]>('/news');
         return news;
     }
 );
 
 export const deleteNews = createAsyncThunk<void, string>(
-    'news/delete',
+    'posts/delete',
     async (id: string) => {
-        await axiosApi.delete(`news/${id}`);
+        await axiosApi.delete(`/news/${id}`);
     });

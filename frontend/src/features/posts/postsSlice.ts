@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {createPost, fetchNews} from "./postsThunk.ts";
+import {createPost, deleteNews, fetchNews} from "./postsThunk.ts";
 import {News} from "../../types.ts";
 
 export interface PostsState {
     posts: News[];
     isCreating: boolean;
+    isDeleting: boolean;
 }
 
 const initialState: PostsState = {
     posts: [],
     isCreating: false,
+    isDeleting: false,
 };
 
 export const postsSlice = createSlice({
@@ -27,7 +29,11 @@ export const postsSlice = createSlice({
 
         builder.addCase(fetchNews.fulfilled, (state: PostsState, {payload: news}) => {
             state.posts = news;
-        })
+        });
+
+        builder.addCase(deleteNews.fulfilled, (state: PostsState) => {
+            state.isDeleting = false
+        });
     },
     selectors: {
         selectPosts: (state) => state.posts,

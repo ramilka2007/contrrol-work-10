@@ -9,7 +9,7 @@ interface Props {
     news: NewsWithoutText;
 }
 const PostItem:React.FC<Props> = ({news}) => {
-    const dispatch= useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const deleteNewsById = async (id: string) => {
         await dispatch(deleteNews(id));

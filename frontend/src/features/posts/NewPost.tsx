@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {useNavigate} from "react-router-dom";
 import {selectPostCreating} from "./postsSlice.ts";
 import {NewsForm} from "../../types.ts";
-import {createPost} from "./postsThunk.ts";
+import {createPost, fetchNews} from "./postsThunk.ts";
 
 const NewPost = () => {
     const navigate = useNavigate();
@@ -13,6 +13,7 @@ const NewPost = () => {
 
     const onFormSubmit = async (newMutation: NewsForm) => {
         await dispatch(createPost(newMutation));
+        await dispatch(fetchNews())
         navigate('/');
     };
 
