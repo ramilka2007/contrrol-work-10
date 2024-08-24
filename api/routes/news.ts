@@ -21,4 +21,9 @@ newsRouter.post("/", imagesUpload.single('image'), async (req, res) => {
     return res.send(newPost);
 });
 
+newsRouter.get("/", async (req, res) => {
+    const news = await newDb.getItems();
+    return res.send(news);
+});
+
 export default newsRouter;
